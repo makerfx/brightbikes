@@ -231,6 +231,7 @@ void loop()
     
 
   display.setCursor(0,0);
+  display.print("FPS:");
   display.print(FastLED.getFPS());
   
   display.display();
