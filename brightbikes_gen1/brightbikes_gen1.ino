@@ -126,6 +126,7 @@ void setup() {
   display.println("Initializing...");
   display.display(); // actually display all of the above
   delay(1000);
+  aniTestSweep();
   Serial.println("Setup Finished.");
   printDebugOptions();
   
@@ -224,6 +225,7 @@ void loop()
     case 4: aniSinPlasma(4); break;
     case 5: aniXYMatrixHueShift(); break;
     case 6: aniTestCrawl(); break;
+    case 7: aniTestSweep(); break;
     default: aniMode = 0;
    }
     
@@ -263,6 +265,50 @@ void aniTestCrawl() {
       testY=0;
     }
 
+}
+
+void aniTestSweep() {
+  //horizontal sweep left to right
+  for (int i=0; i<=LED_COLS; i++) {
+    for (int j=0; j<LED_ROWS; j++) {
+      setLEDVal(i, j, ColorFromPalette (RainbowColors_p,(millis()/10)%255,255));
+    }
+    FastLED.show();
+    debugOptionsCheck(); 
+    FastLED.clear();
+  }
+
+  //horizontal sweep right to left
+  for (int i=LED_COLS; i>=0; i--) {
+    for (int j=0; j<LED_ROWS; j++) {
+      setLEDVal(i, j, ColorFromPalette (RainbowColors_p,(millis()/10)%255,255));     
+    }
+    FastLED.show();
+    debugOptionsCheck(); 
+    FastLED.clear();
+  }
+
+  //vertical sweep bottom to top
+  for (int i=0; i<=LED_ROWS; i++) {
+    for (int j=0; j<LED_COLS; j++) {
+      setLEDVal(j, i, ColorFromPalette (RainbowColors_p,(millis()/5)%255,255));
+    }
+    FastLED.show();
+    debugOptionsCheck();
+    delay(20); 
+    FastLED.clear();
+  }
+
+ //vertical sweep top to bottom
+  for (int i=LED_ROWS; i>=0; i--) {
+    for (int j=0; j<LED_COLS; j++) {
+      setLEDVal(j, i, ColorFromPalette (RainbowColors_p,(millis()/5)%255,255));
+    }
+    FastLED.show();
+    debugOptionsCheck();
+    delay(20); 
+    FastLED.clear();
+  }
 }
 
 /*
