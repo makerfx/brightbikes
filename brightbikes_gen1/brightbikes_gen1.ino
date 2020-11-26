@@ -68,8 +68,8 @@ const uint8_t  numPanelCols[] = {14, 20, 28};
 //see the FastLED XY example for this "safety pixel" concept
 CRGB leds_plus_safety_pixel[ MATRIX_SIZE + 1];
 CRGB* const leds( leds_plus_safety_pixel + 1);
-CRGB* const ledsM( leds_plus_safety_pixel + 1 + 178);
-CRGB* const ledsR( leds_plus_safety_pixel + 1 + 178 + 299);
+CRGB* const ledsM( leds_plus_safety_pixel + 1 + numPanelLEDs[0]);
+CRGB* const ledsR( leds_plus_safety_pixel + 1 + numPanelLEDs[0] + numPanelLEDs[1]);
 
 
 //fire effect variables
