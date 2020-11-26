@@ -31,11 +31,13 @@ const uint8_t LED_COLS = kMatrixWidth;
 const uint8_t LED_ROWS = kMatrixHeight;
 
 
+#define NUM_VIRTUAL_LEDS kMatrixWidth * kMatrixHeight
+
 #define NUM_LEDS_F 178
 #define NUM_LEDS_M 299
 #define NUM_LEDS_R 339
+#define NUM_LEDS NUM_LEDS_F + NUM_LEDS_M + NUM_LEDS_R //used by a lot of 1D patterns
 
-//const uint8_t  arrayStart[] = {0, 15, 15+20}; //this could be replaced with numPanelCols below
 const uint16_t numPanelLEDs[] = {NUM_LEDS_F, NUM_LEDS_M, NUM_LEDS_R};
 const uint8_t  numPanelCols[] = {14, 20, 28};
 
