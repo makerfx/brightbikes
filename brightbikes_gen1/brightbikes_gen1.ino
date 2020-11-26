@@ -52,7 +52,7 @@ const int XYTable[] = {161,162,163,164,165,166,167,168,169,170,171,172,173,174,1
 #define NUM_LEDS_M 299
 #define NUM_LEDS_R 339
 
-const uint8_t  arrayStart[] = {0, 15, 15+20}; //this could be replaced with numPanelCols below
+//const uint8_t  arrayStart[] = {0, 15, 15+20}; //this could be replaced with numPanelCols below
 const uint16_t numPanelLEDs[] = {NUM_LEDS_F, NUM_LEDS_M, NUM_LEDS_R};
 const uint8_t  numPanelCols[] = {14, 20, 28};
 
