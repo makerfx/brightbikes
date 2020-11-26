@@ -105,6 +105,25 @@ int XY(uint8_t x, uint8_t y)
  
 }
 
+/*
+ * X() - this function remaps the LEDS in one dimension only
+ * 
+ */
+int X(int x) { 
+  int j = x; 
+  
+  if (x < numPanelLEDs[0]) {
+    j = numPanelLEDs[0] - x;
+  }
+  else if (x < numPanelLEDs[0] + numPanelLEDs[1]) {
+    j = (numPanelLEDs[0] + numPanelLEDs[1] - x) + numPanelLEDs[0];
+  }
+  else 
+    j = (numPanelLEDs[0] + numPanelLEDs[1] + numPanelLEDs[2] - x) + numPanelLEDs[0] + numPanelLEDs[1];
+  
+  return j;
+}
+
 
 int testX = 0; 
 int testY = 0;
