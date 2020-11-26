@@ -1,7 +1,4 @@
 
-//todo: animated gifs - https://github.com/pixelmatix/AnimatedGIFs/blob/master/examples/SmartMatrixGifPlayer/SmartMatrixGifPlayer.ino
-//todo: gfx library - look here for info: https://github.com/marcmerlin/Framebuffer_GFX + https://github.com/marcmerlin/FastLED_NeoMatrix
-
 #include "brightbikes.h"
 
 #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
