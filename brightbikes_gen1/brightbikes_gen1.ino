@@ -6,8 +6,7 @@
 
 bool debugOptions[10] = {0, 0, 0, 1, 0, 0, 0, 0, 0, 0};   //change default here, helpful for startup debugging
 
-uint8_t aniMode = 8;
-                                                        
+                                                      
 const char *debugOptionsText[10] =  {"", "Input","Audio", "Action", "Peak Audio",
                                 "Animation","Animation RGB Dump"};
                                 
@@ -128,20 +127,30 @@ int X(int x) {
 int testX = 0; 
 int testY = 0;
 
+uint8_t gHue = 0; // rotating "base color" used by many of the patterns
+
+uint8_t aniMode = 12;
+
 void loop()
 {
 
    
    switch (aniMode) {
     case 0: aniFire(); break;
-    case 1: FastLED.setBrightness( BRIGHTNESS );      aniSinPlasma(1); break;
-    case 2: FastLED.setBrightness( BRIGHTNESS );      aniSinPlasma(2); break;
-    case 3: FastLED.setBrightness( BRIGHTNESS );      aniSinPlasma(3); break;
-    case 4: FastLED.setBrightness( BRIGHTNESS );      aniSinPlasma(4); break;
-    case 5: FastLED.setBrightness( BRIGHTNESS );      aniXYMatrixHueShift(); break;
-    case 6: FastLED.setBrightness( BRIGHTNESS );      aniTestCrawl(); break;
-    case 7: FastLED.setBrightness( BRIGHTNESS );      aniTestSweep(); break;
-    case 8: FastLED.setBrightness( BRIGHTNESS*1.5);   swirl(); break;
+    case 1:  FastLED.setBrightness( BRIGHTNESS );       aniSinPlasma(1); break;
+    case 2:  FastLED.setBrightness( BRIGHTNESS );       aniSinPlasma(2); break;
+    case 3:  FastLED.setBrightness( BRIGHTNESS );       aniSinPlasma(3); break;
+    case 4:  FastLED.setBrightness( BRIGHTNESS );       aniSinPlasma(4); break;
+    case 5:  FastLED.setBrightness( BRIGHTNESS );       aniXYMatrixHueShift(); break;
+    case 6:  FastLED.setBrightness( BRIGHTNESS );       aniTestCrawl(); break;
+    case 7:  FastLED.setBrightness( BRIGHTNESS );       aniTestSweep(); break;
+    case 8:  FastLED.setBrightness( BRIGHTNESS*1.5);    swirl(); break;
+    case 9:  FastLED.setBrightness( BRIGHTNESS*1.5);    confetti(); break;
+    case 10: FastLED.setBrightness( BRIGHTNESS);        rainbow(); break;
+    case 11: FastLED.setBrightness( BRIGHTNESS);        rainbowWithGlitter(); break;
+    case 12: FastLED.setBrightness( BRIGHTNESS);        sinelon(); break;
+    case 13: FastLED.setBrightness( BRIGHTNESS);        bpm(); break;
+    case 14: FastLED.setBrightness( BRIGHTNESS);        juggle(); break;
     default: aniMode = 0;
    }
     
@@ -153,6 +162,8 @@ void loop()
   FastLED.show();
   display.clearDisplay();
 
+  // global Hue used by FastLED example animations
+  EVERY_N_MILLISECONDS( 20 ) { gHue++; } // slowly cycle the "base color" through the rainbow
   
   debugOptionsCheck();   
   
@@ -278,6 +289,67 @@ void aniFire() {
 
 }
 
+/*
+ * FastLED DemoReel100 patterns
+ */
+
+void rainbow() 
+{
+  // FastLED's built-in rainbow generator
+  fill_rainbow( leds, NUM_LEDS, gHue, 7);
+}
+
+void rainbowWithGlitter() 
+{
+  // built-in FastLED rainbow, plus some random sparkly glitter
+  rainbow();
+  addGlitter(80);
+}
+
+void addGlitter( fract8 chanceOfGlitter) 
+{
+  if( random8() < chanceOfGlitter) {
+    leds[ random16(NUM_LEDS) ] += CRGB::White;
+  }
+}
+
+void confetti() 
+{
+  // random colored speckles that blink in and fade smoothly
+  fadeToBlackBy( leds, NUM_LEDS, 10);
+  int pos = random16(NUM_LEDS);
+  leds[pos] += CHSV( gHue + random8(64), 200, 255);
+}
+
+void sinelon()
+{
+  // a colored dot sweeping back and forth, with fading trails
+  fadeToBlackBy( leds, NUM_LEDS, 20);
+  int pos = beatsin16( 13, 0, NUM_LEDS-1 );
+  leds[X(pos)] += CHSV( gHue, 255, 192);
+}
+
+void bpm()
+{
+  // colored stripes pulsing at a defined Beats-Per-Minute (BPM)
+  uint8_t BeatsPerMinute = 62;
+  CRGBPalette16 palette = PartyColors_p;
+  uint8_t beat = beatsin8( BeatsPerMinute, 64, 255);
+  for( int i = 0; i < NUM_LEDS; i++) { //9948
+    leds[X(i)] = ColorFromPalette(palette, gHue+(i*2), beat-gHue+(i*10));
+  }
+}
+
+void juggle() {
+  // eight colored dots, weaving in and out of sync with each other
+  fadeToBlackBy( leds, NUM_LEDS, 20);
+  byte dothue = 0;
+  for( int i = 0; i < 8; i++) {
+    leds[X(beatsin16( i+7, 0, NUM_LEDS-1 ))] |= CHSV(dothue, 200, 255);
+    dothue += 32;
+  }
+}
+
 
 /*
  * swirl()
@@ -285,7 +357,7 @@ void aniFire() {
  * this will cause XY to throw safety checks
  * 
  */
- 
+
  void swirl() {
   const uint8_t kBorderWidth = 1;
   // Apply some blurring to whatever's already on the matrix
