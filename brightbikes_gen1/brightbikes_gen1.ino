@@ -145,7 +145,9 @@ int testY = 0;
 
 uint8_t gHue = 0; // rotating "base color" used by many of the patterns
 
-uint8_t aniMode = 12;
+#define NUM_ANIMATIONS 15
+uint8_t aniMode = 0;
+bool aniModeAdvance = true;
 
 void loop()
 {
@@ -179,6 +181,8 @@ void loop()
   } 
 
 
+  EVERY_N_SECONDS(ANI_MODE_ADVANCE_SPEED) {
+    if (aniModeAdvance) actionNextAnimation();
   }
 
   FastLED.show();
@@ -551,7 +555,7 @@ void debugOptionsCheck() {
             //Serial.printf("Debug option %d is now %s\n", option, debugOptions[option]?"ON":"OFF");
             break;
 
-          case 'q': FastLED.clear(); aniMode++; break;
+          case 'q': actionNextAnimation();  break;
           //case 'w': mapAction(SOURCE_BUTTON, 1, 0); break;
           //case 'e': mapAction(SOURCE_BUTTON, 2, 0); break;
           //case 'r': mapAction(SOURCE_BUTTON, 3, 0); break;
