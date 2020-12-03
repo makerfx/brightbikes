@@ -37,6 +37,15 @@ void setup() {
  FastLED.addLeds<CHIPSET, LED_PIN_REAR,  COLOR_ORDER>(ledsR, numPanelLEDs[2]).setCorrection(TypicalSMD5050);
  FastLED.setBrightness( BRIGHTNESS );
 
+
+  //setup audio system
+  AudioMemory(64);
+  sgtl5000_1.enable();
+  sgtl5000_1.inputSelect(AUDIO_INPUT_LINEIN);
+  sgtl5000_1.volume(STARTING_VOLUME);
+  mxFFT.gain(0, 3);    //fft
+  mxFFT.gain(1, 3);    //fft
+ 
   //Setup USB Host
   Serial.println("USB Host Setup");
   myusb.begin();
@@ -461,6 +470,55 @@ void updateOLED() {
 
 }
 
+
+void updateFFT(bool bg, bool dot, uint8_t hueMode) {
+  float n;
+  int i;
+  uint8_t h;
+  uint8_t cHue = 0;
+
+  #define BASE_ROWS 0
+  #define VIZ_GAIN 2
+  float vizGain[]= {1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+                    1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,
+                    2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2};
+  
+   if (bg) fill_solid(leds, NUM_LEDS, CHSV( gHue+128, 255, 96));
+  
+   if (fft1024_1.available()) {
+    // each time new FFT data is available
+    // print it all to the Arduino Serial Monitor
+    if (debugOptions[DEBUG_PEAK_FFT]) Serial.print("FFT: ");
+    for (i=0; i<LED_COLS; i++) {
+      n = fft1024_1.read(i);
+      h = BASE_ROWS +  (n * LED_ROWS) * vizGain[i];
+      switch (hueMode) {
+          case 0: cHue = gHue; break;
+          case 1: cHue = cHue+10; break;
+          Serial.println(cHue);
+        }
+      if (h > LED_ROWS-1) h = LED_ROWS-1;
+      for (int row = 0; row < h; row++) {
+        leds[XY(i, row)] =  CHSV( cHue, 255, 255);
+      }      
+      if (debugOptions[DEBUG_PEAK_FFT]) {
+        if (h >= 0) {
+          Serial.print(n);
+          Serial.print(" ");
+        } else {
+          Serial.print("  -  "); // don't print "0.00"
+        }
+      }
+    }
+   if (debugOptions[DEBUG_PEAK_FFT]) Serial.println();
+  }
+
+   
+   FastLED.show();
+   debugOptionsCheck(); 
+   fadeToBlackBy(leds, NUM_LEDS, 75);
+   
+}
 
 /*
  * debugOptionsCheck() - this function checks the Serial input and
