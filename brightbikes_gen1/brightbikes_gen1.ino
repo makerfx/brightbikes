@@ -34,7 +34,6 @@ DEFINE_GRADIENT_PALETTE(firepal) { // define fire palette
 //end fire effect
 
 void setup() {
- // FastLED.addLeds<CHIPSET, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalSMD5050);
 
  FastLED.addLeds<CHIPSET, LED_PIN_FRONT, COLOR_ORDER>(leds,  numPanelLEDs[0]).setCorrection(TypicalSMD5050);
  FastLED.addLeds<CHIPSET, LED_PIN_MID,   COLOR_ORDER>(ledsM, numPanelLEDs[1]).setCorrection(TypicalSMD5050);
