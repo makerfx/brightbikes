@@ -8,18 +8,15 @@ bool debugOptions[10] = {0, 0, 0, 1, 0, 0, 0, 0, 0, 0};   //change default here,
 
                                                       
 const char *debugOptionsText[10] =  {"", "Input","Audio", "Action", "Peak Audio",
-                                "Animation","Animation RGB Dump"};
+                                "Animation","Pixel Mapping"};
                                 
 #define DEBUG_INPUT               1  //input functions 
 #define DEBUG_AUDIO               2  //audio functions 
 #define DEBUG_ACTION              3  //action functions 
-#define DEBUG_PEAK                4  //Peak Audio functions 
+#define DEBUG_PEAK_FFT            4  //Peak and FFT Audio functions 
 #define DEBUG_ANIMATION           5  //Animation functions   //THIS MAY SLOW ANIMATION                            
-#define DEBUG_ANIMATION_RGB       6  //Show Full Animation Frame RGB 
-                                     //Does not require DEBUG_ANIMATION to be on
-                                     //THIS MAY SLOW ANIMATION
-
-
+#define DEBUG_MAPPING             6  //XY and X mapping functions 
+                          
 
 //fire effect variables
 int scalexy = 60; // scale of fire
@@ -84,13 +81,15 @@ int XY(uint8_t x, uint8_t y)
 
   //safety checks
   if( x >= kMatrixWidth) { 
-    Serial.print("XY Safety Check: X = ");
-    Serial.println(x);
+    if (debugOptions[DEBUG_MAPPING]) Serial.printf("XY Safety Check: X = %i \n", x);   
+      //Serial.print("XY Safety Check: X = ");
+      //Serial.println(x);
     return -1;
   }
   if( y >= kMatrixHeight) {
-    Serial.print("XY Safety Check: Y = ");
-    Serial.println(y);
+    if (debugOptions[DEBUG_MAPPING]) Serial.printf("XY Safety Check: Y = %i \n", y);   
+    //Serial.print("XY Safety Check: Y = ");
+    //Serial.println(y);
     return -1;
   }
   
@@ -155,11 +154,15 @@ void loop()
     
 
   EVERY_N_MILLISECONDS(100) {                           
-    updateOLED();
+    if (debugOptions[DEBUG_ANIMATION]) updateOLED();
+  } 
+
+
   }
 
   FastLED.show();
   display.clearDisplay();
+  if (debugOptions[DEBUG_ANIMATION]) display.clearDisplay();
 
   // global Hue used by FastLED example animations
   EVERY_N_MILLISECONDS( 20 ) { gHue++; } // slowly cycle the "base color" through the rainbow
