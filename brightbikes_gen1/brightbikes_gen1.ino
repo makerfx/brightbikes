@@ -185,8 +185,8 @@ void loop()
     if (aniModeAdvance) actionNextAnimation();
   }
 
+
   FastLED.show();
-  display.clearDisplay();
   if (debugOptions[DEBUG_ANIMATION]) display.clearDisplay();
 
   // global Hue used by FastLED example animations
@@ -604,7 +604,6 @@ void printDebugOptions() {
 }
 
 
- 
 /*
  * Input
  * OnPress() - this function is called by the USB Host HID event when a key is pressed
