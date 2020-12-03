@@ -348,6 +348,11 @@ void confetti()
   leds[pos] += CHSV( gHue + random8(64), 200, 255);
 }
 
+/*
+ * Modded to map X across the pixels so that the pattern moves
+ * correctly across the panels
+ * 
+ */
 void sinelon()
 {
   // a colored dot sweeping back and forth, with fading trails
@@ -356,6 +361,11 @@ void sinelon()
   leds[X(pos)] += CHSV( gHue, 255, 192);
 }
 
+/*
+ * Modded to map X across the pixels so that the pattern moves
+ * correctly across the panels
+ * 
+ */
 void bpm()
 {
   // colored stripes pulsing at a defined Beats-Per-Minute (BPM)
@@ -367,6 +377,11 @@ void bpm()
   }
 }
 
+/*
+ * Modded to map X across the pixels so that the pattern moves
+ * correctly across the panels
+ * 
+ */
 void juggle() {
   // eight colored dots, weaving in and out of sync with each other
   fadeToBlackBy( leds, NUM_LEDS, 20);
