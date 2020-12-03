@@ -167,6 +167,9 @@ void loop()
     case 12: FastLED.setBrightness( BRIGHTNESS);        sinelon(); break;
     case 13: FastLED.setBrightness( BRIGHTNESS);        bpm(); break;
     case 14: FastLED.setBrightness( BRIGHTNESS);        juggle(); break;
+    case 15: FastLED.setBrightness( BRIGHTNESS);        updateFFT(0, 0, 0); break; //no bg
+    case 16: FastLED.setBrightness( BRIGHTNESS);        updateFFT(1, 0, 0); break; //bg
+    case 17: FastLED.setBrightness( BRIGHTNESS);        updateFFT(0, 0, 1); break; //hue cycle per col
     default: aniMode = 0;
    }
     
