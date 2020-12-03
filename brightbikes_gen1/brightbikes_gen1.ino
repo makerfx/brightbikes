@@ -37,6 +37,15 @@ void setup() {
  FastLED.addLeds<CHIPSET, LED_PIN_REAR,  COLOR_ORDER>(ledsR, numPanelLEDs[2]).setCorrection(TypicalSMD5050);
  FastLED.setBrightness( BRIGHTNESS );
 
+  //Setup USB Host
+  Serial.println("USB Host Setup");
+  myusb.begin();
+  keyboard1.attachPress(OnPress);
+  //keyboard1.attachRelease(OnRelease);
+  keyboard1.attachExtrasPress(OnHIDExtrasPress);
+  //keyboard1.attachExtrasRelease(OnHIDExtrasRelease);
+  
+  
  Serial.begin(115200);
  delay(100);
  
@@ -516,3 +525,60 @@ void printDebugOptions() {
 
 
  
+/*
+ * Input
+ * OnPress() - this function is called by the USB Host HID event when a key is pressed
+ * 
+ */
+void OnPress(int key)
+{
+  if (debugOptions[DEBUG_INPUT]) Serial.printf("Pressed key: %i \n", key);
+  mapAction(SOURCE_KEY, key, 0);
+  keyHeld = key;
+  keyHeldDuration = millis();   
+}
+
+
+/*
+ * Input
+ * OnHIDExtrasPress() - this function is called by the USB Host HID event when a MULTIMEDIA key is pressed
+ * 
+ */
+void OnHIDExtrasPress(uint32_t top, uint16_t key) 
+{
+   OnPress(key);
+}
+
+
+/* 
+ *  Action
+ *  mapAction() - this function maps a key, note, button, etc to an action
+ *                and then calls the function for that action
+ *  
+ *  On the larger MWC projects, this has an actions array and a processAction function
+ *  We are simplifying here and just doing the map right in this function
+ *  
+ */
+
+void mapAction(int src, int key, int data) {
+
+  if ((src == SOURCE_KEY) && (key == 214)) actionNextAnimation();
+  else if ((src == SOURCE_KEY) && (key == 211)) actionPreviousAnimation();
+  else if ((src == SOURCE_KEY) && (key == 2)) aniModeAdvance = !aniModeAdvance;
+  
+  
+}
+
+uint8_t actionNextAnimation() {
+  aniMode++;
+  if (aniMode > NUM_ANIMATIONS - 1) aniMode = 0;
+  if (debugOptions[DEBUG_ACTION]) Serial.printf("actionNextAnimation - animation: %i \n", aniMode); 
+  return aniMode;
+}
+
+uint8_t actionPreviousAnimation() {
+  aniMode--;
+  if (aniMode > NUM_ANIMATIONS) aniMode = NUM_ANIMATIONS - 1;
+  if (debugOptions[DEBUG_ACTION]) Serial.printf("actionPreviousAnimation - animation: %i \n", aniMode);   
+  return aniMode;
+}
