@@ -407,7 +407,7 @@ void juggle() {
   // blur it repeatedly.  Since the blurring is 'lossy', there's
   // an automatic trend toward black -- by design.
   uint8_t blurAmount = beatsin8(2,10,255);
-  blur2d( leds, 62, 27, blurAmount);
+  blur2d( leds, LED_COLS, LED_ROWS, blurAmount);
 
   // Use two out-of-sync sine waves
   uint8_t  i = beatsin8( 27, kBorderWidth, 16-kBorderWidth);
