@@ -53,6 +53,9 @@ void setup() {
   //keyboard1.attachRelease(OnRelease);
   keyboard1.attachExtrasPress(OnHIDExtrasPress);
   //keyboard1.attachExtrasRelease(OnHIDExtrasRelease);
+
+  pinMode(39, INPUT_PULLUP);
+  pinMode(40, INPUT_PULLUP);
   
   
  Serial.begin(115200);
@@ -151,6 +154,21 @@ bool aniModeAdvance = true;
 
 void loop()
 {
+
+          
+   EVERY_N_MILLISECONDS(200) {
+     int redButton = digitalRead(40);
+     if (redButton == LOW) {
+        Serial.println("RED");
+        actionNextAnimation();
+     }
+  
+     int yellowButton = digitalRead(39);
+     if (yellowButton == LOW) {
+        Serial.println("YELLOW");
+        actionToggleAniModeAdvance();
+     }   
+   }
 
    
    switch (aniMode) {
