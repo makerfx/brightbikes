@@ -148,9 +148,9 @@ int testY = 0;
 
 uint8_t gHue = 0; // rotating "base color" used by many of the patterns
 
-#define NUM_ANIMATIONS 15
-uint8_t aniMode = 0;
-bool aniModeAdvance = true;
+#define NUM_ANIMATIONS 17
+uint8_t aniMode = 15;
+bool aniModeAdvance = false;
 
 void loop()
 {
@@ -575,6 +575,7 @@ void debugOptionsCheck() {
       int option;
       
       switch (incomingByte) {
+          
           case '0':                         //turn all options off
             for (int o = 1; o<10; o++) {    //we dont use zero
               debugOptions[o] = 0;
@@ -589,9 +590,9 @@ void debugOptionsCheck() {
             break;
 
           case 'q': actionNextAnimation();  break;
-          //case 'w': mapAction(SOURCE_BUTTON, 1, 0); break;
+          case 'w': actionPreviousAnimation(); break;
           //case 'e': mapAction(SOURCE_BUTTON, 2, 0); break;
-          //case 'r': mapAction(SOURCE_BUTTON, 3, 0); break;
+          case 'r': actionToggleAniModeAdvance(); break;
           }
          
          printDebugOptions();
@@ -607,6 +608,7 @@ void debugOptionsCheck() {
  *  
  */
 void printDebugOptions() {
+  Serial.println("\n**********************************************************\n");
   Serial.println("\nDebug Options Status");
   Serial.println("Use serial input keys 1 through 9 to change debug options");
   Serial.println("Use serial input keys 0 to turn off all debug options at once");
@@ -661,7 +663,7 @@ void mapAction(int src, int key, int data) {
 
   if ((src == SOURCE_KEY) && (key == 214)) actionNextAnimation();
   else if ((src == SOURCE_KEY) && (key == 211)) actionPreviousAnimation();
-  else if ((src == SOURCE_KEY) && (key == 2)) aniModeAdvance = !aniModeAdvance;
+  else if ((src == SOURCE_KEY) && (key == 2)) actionToggleAniModeAdvance();
   
   
 }
@@ -678,4 +680,9 @@ uint8_t actionPreviousAnimation() {
   if (aniMode > NUM_ANIMATIONS) aniMode = NUM_ANIMATIONS - 1;
   if (debugOptions[DEBUG_ACTION]) Serial.printf("actionPreviousAnimation - animation: %i \n", aniMode);   
   return aniMode;
+}
+
+void actionToggleAniModeAdvance() {
+  aniModeAdvance = !aniModeAdvance;
+  if (debugOptions[DEBUG_ACTION]) Serial.printf("aniModeAdvance = %s", aniModeAdvance ? "true" : "false");
 }
