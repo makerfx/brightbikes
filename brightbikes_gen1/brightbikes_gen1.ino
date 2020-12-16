@@ -193,7 +193,7 @@ void loop()
     
 
   EVERY_N_MILLISECONDS(100) {                           
-    if (debugOptions[DEBUG_ANIMATION]) updateOLED();
+    updateOLED();
   } 
 
 
@@ -489,22 +489,27 @@ void DrawOneFrame( byte startHue8, int8_t yHueDelta8, int8_t xHueDelta8)
  * 
  */
 void updateOLED() {
-  display.setCursor(80,0);
-  display.print("FPS:");
-  display.print(FastLED.getFPS());
+
+  bool update = false;
   
-  for (int i=0; i<LED_COLS; i++) {
-   for (int j=0; j<LED_ROWS; j++) {
-      CRGB val = leds[XY(i,j)];
-      //check to see if pixel is mapped, and then sample the red channel 
-      if ((XY(i,j) > 0) && (val.red > 10)) {
-        //we skip every other horizontal pixel for better aspect ratio
-        display.drawPixel(2*i, SCREEN_HEIGHT - j, SSD1306_WHITE);
+  if (debugOptions[DEBUG_ANIMATION]) {
+    update = true;
+    display.setCursor(80,0);
+    display.print("FPS:");
+    display.print(FastLED.getFPS());
+    
+    for (int i=0; i<LED_COLS; i++) {
+     for (int j=0; j<LED_ROWS; j++) {
+        CRGB val = leds[XY(i,j)];
+        //check to see if pixel is mapped, and then sample the red channel 
+        if ((XY(i,j) > 0) && (val.red > 10)) {
+          //we skip every other horizontal pixel for better aspect ratio
+          display.drawPixel(2*i, SCREEN_HEIGHT - j, SSD1306_WHITE);
+        }
       }
     }
   }
- 
-  display.display();
+  if (update) display.display();
 
 }
 
