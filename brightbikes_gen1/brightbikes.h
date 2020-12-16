@@ -71,6 +71,7 @@ const uint8_t kMatrixHeight = 25;  //all in one v2 change - remove top two rows
 const uint8_t LED_COLS = kMatrixWidth;
 const uint8_t LED_ROWS = kMatrixHeight;
 
+//important note - the pixel map for the bike has some empty columns!
 
 #define NUM_VIRTUAL_LEDS kMatrixWidth * kMatrixHeight
 

@@ -523,7 +523,7 @@ void updateFFT(bool bg, bool dot, uint8_t hueMode) {
   #define VIZ_GAIN 2
   float vizGain[]= {1,1,1,1,1,1,1,1,1,1,1,1,1,1,
                     1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,1.5,
-                    2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2};
+                    2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2}; //dont forget the empty columns!
   
    if (bg) fill_solid(leds, NUM_LEDS, CHSV( gHue+128, 255, 96));
   
