@@ -148,8 +148,8 @@ int testY = 0;
 
 uint8_t gHue = 0; // rotating "base color" used by many of the patterns
 
-#define NUM_ANIMATIONS 17
-uint8_t aniMode = 15;
+#define NUM_ANIMATIONS 15
+uint8_t aniMode = 14;
 bool aniModeAdvance = false;
 
 void loop()
