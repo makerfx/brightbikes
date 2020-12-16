@@ -173,23 +173,21 @@ void loop()
    
    switch (aniMode) {
     case 0: aniFire(); break;
-    case 1:  FastLED.setBrightness( BRIGHTNESS );       aniSinPlasma(1); break;
-    case 2:  FastLED.setBrightness( BRIGHTNESS );       aniSinPlasma(2); break;
-    case 3:  FastLED.setBrightness( BRIGHTNESS );       aniSinPlasma(3); break;
-    case 4:  FastLED.setBrightness( BRIGHTNESS );       aniSinPlasma(4); break;
-    case 5:  FastLED.setBrightness( BRIGHTNESS );       aniXYMatrixHueShift(); break;
-    case 6:  FastLED.setBrightness( BRIGHTNESS );       aniTestCrawl(); break;
-    case 7:  FastLED.setBrightness( BRIGHTNESS );       aniTestSweep(); break;
-    case 8:  FastLED.setBrightness( BRIGHTNESS*1.5);    swirl(); break;
-    case 9:  FastLED.setBrightness( BRIGHTNESS*1.5);    confetti(); break;
-    case 10: FastLED.setBrightness( BRIGHTNESS);        rainbow(); break;
-    case 11: FastLED.setBrightness( BRIGHTNESS);        rainbowWithGlitter(); break;
-    case 12: FastLED.setBrightness( BRIGHTNESS);        sinelon(); break;
-    case 13: FastLED.setBrightness( BRIGHTNESS);        bpm(); break;
-    case 14: FastLED.setBrightness( BRIGHTNESS);        juggle(); break;
-    case 15: FastLED.setBrightness( BRIGHTNESS);        updateFFT(0, 0, 0); break; //no bg
-    case 16: FastLED.setBrightness( BRIGHTNESS);        updateFFT(1, 0, 0); break; //bg
-    case 17: FastLED.setBrightness( BRIGHTNESS);        updateFFT(0, 0, 1); break; //hue cycle per col
+    case 1:  aniSinPlasma(1); break;
+    case 2:  aniSinPlasma(2); break;
+    case 3:  aniSinPlasma(3); break;
+    case 4:  aniSinPlasma(4); break;
+    case 5:  aniXYMatrixHueShift(); break;
+    case 6:  aniTestSweep(); break;
+    case 7:  swirl(); break;
+    case 8:  confetti(); break;
+    case 9:  rainbowWithGlitter(); break;
+    case 10: sinelon(); break;
+    case 11: bpm(); break;
+    case 12: juggle(); break;
+    case 13: updateFFT(0, 0, 0); break; //no bg
+    case 14: updateFFT(1, 0, 0); break; //bg
+    case 15: updateFFT(0, 0, 1); break; //hue cycle per col
     default: aniMode = 0;
    }
     
@@ -510,7 +508,6 @@ void updateOLED() {
 
 }
 
-
 void updateFFT(bool bg, bool dot, uint8_t hueMode) {
   float n;
   int i;
@@ -685,4 +682,13 @@ uint8_t actionPreviousAnimation() {
 void actionToggleAniModeAdvance() {
   aniModeAdvance = !aniModeAdvance;
   if (debugOptions[DEBUG_ACTION]) Serial.printf("aniModeAdvance = %s", aniModeAdvance ? "true" : "false");
+}
+
+void actionChangeBrightness (int delta) {
+  uint8_t b = FastLED.getBrightness();
+  b += delta;
+  if (b> BRIGHTNESS_MAX) b=BRIGHTNESS_INCREMENT;
+  if (b==0) b = BRIGHTNESS_MAX;
+  FastLED.setBrightness(b);
+  if (debugOptions[DEBUG_ACTION]) Serial.printf("Brightness = %d\n", b);
 }

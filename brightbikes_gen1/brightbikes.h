@@ -85,7 +85,9 @@ const uint8_t  numPanelCols[] = {14, 20, 28};
 #define COLOR_ORDER GRB
 #define CHIPSET     WS2812SERIAL
 
-#define BRIGHTNESS 64
+#define BRIGHTNESS 60
+#define BRIGHTNESS_INCREMENT 10
+#define BRIGHTNESS_MAX 160
 
 #define ANI_MODE_ADVANCE_SPEED 15 //seconds
 
