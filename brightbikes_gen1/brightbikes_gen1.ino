@@ -663,9 +663,20 @@ void OnHIDExtrasPress(uint32_t top, uint16_t key)
 
 void mapAction(int src, int key, int data) {
 
-  if ((src == SOURCE_KEY) && (key == 214)) actionNextAnimation();
-  else if ((src == SOURCE_KEY) && (key == 211)) actionPreviousAnimation();
-  else if ((src == SOURCE_KEY) && (key == 2)) actionToggleAniModeAdvance();
+  if ((src == SOURCE_KEY) && (key == 214))        actionNextAnimation();                 //presentation remote right
+  else if ((src == SOURCE_KEY) && (key == 215 ))  actionNextAnimation();           //tv remote right
+  else if ((src == SOURCE_KEY) && (key == 211))   actionPreviousAnimation();        //presentation remote left
+  else if ((src == SOURCE_KEY) && (key == 216))   actionPreviousAnimation();        //tv remote left
+  else if ((src == SOURCE_KEY) && (key == 2))     actionToggleAniModeAdvance();       //presentation remote play
+  else if ((src == SOURCE_KEY) && (key == 27))    actionToggleAniModeAdvance();      //tv remote exit menu
+  
+  else if ((src == SOURCE_KEY) && (key == 218))    actionChangeBrightness(+BRIGHTNESS_INCREMENT);      //tv remote up
+  else if ((src == SOURCE_KEY) && (key == 217))    actionChangeBrightness(-BRIGHTNESS_INCREMENT);      //tv remote down
+  
+  //up 218
+  //down 217
+  //right 215
+  //left 216
   
   
 }
