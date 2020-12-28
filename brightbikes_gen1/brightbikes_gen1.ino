@@ -499,6 +499,9 @@ void updateOLED() {
   
   if (debugOptions[DEBUG_ANIMATION]) {
     update = true;
+    display.setCursor(0,0);
+    display.print("MODE:");
+    display.print(aniMode);   
     display.setCursor(80,0);
     display.print("FPS:");
     display.print(FastLED.getFPS());
