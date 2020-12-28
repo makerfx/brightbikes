@@ -77,6 +77,11 @@ void setup() {
   display.setTextColor(SSD1306_WHITE);
   display.setCursor(0,0);
   display.println(__FILENAME__);
+  display.print(__DATE__);
+  display.print(" ");
+  display.println(__TIME__);
+  display.print("MAP v");
+  display.println(PIXEL_MAP_VERSION);
   display.println("Initializing...");
   display.display(); // actually display all of the above
   delay(1000);
@@ -84,8 +89,8 @@ void setup() {
   Serial.println("Setup Finished.");
   printDebugOptions();
   
-  delay(1000); 
   display.clearDisplay();
+  display.display();
 
   
 }
