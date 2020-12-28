@@ -204,8 +204,13 @@ void loop()
   EVERY_N_SECONDS(ANI_MODE_ADVANCE_SPEED) {
     if (aniModeAdvance) actionNextAnimation();
   }
-
-
+/*
+  EVERY_N_SECONDS(1) {
+    vin = analogRead(A11);
+    vinc = analogRead(A12);
+    Serial.printf("A11: %d; A12: %d\n", vin, vinc);    
+  }
+*/
   FastLED.show();
   if (debugOptions[DEBUG_ANIMATION]) display.clearDisplay();
 
