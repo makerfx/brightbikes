@@ -58,10 +58,10 @@ void setup() {
   pinMode(40, INPUT_PULLUP);
   
   
- Serial.begin(115200);
- delay(100);
+  Serial.begin(115200);
+  delay(100);
  
- //display init
+  //display init
   // SSD1306_SWITCHCAPVCC = generate display voltage from 3.3V internally
   if(!display.begin(SSD1306_SWITCHCAPVCC, 0x3C)) { // Address 0x3C for 128x32
     Serial.println(F("SSD1306 allocation failed"));
@@ -72,7 +72,7 @@ void setup() {
   // Clear the buffer
   display.clearDisplay();
 
-    // text display tests
+  // text display tests
   display.setTextSize(1);
   display.setTextColor(SSD1306_WHITE);
   display.setCursor(0,0);
@@ -91,7 +91,6 @@ void setup() {
   
   display.clearDisplay();
   display.display();
-
   
 }
 
