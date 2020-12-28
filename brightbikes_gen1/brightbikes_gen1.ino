@@ -153,8 +153,8 @@ int testY = 0;
 
 uint8_t gHue = 0; // rotating "base color" used by many of the patterns
 
-#define NUM_ANIMATIONS 15
-uint8_t aniMode = 14;
+#define MAX_ANIMATION 15
+uint8_t aniMode = 0;
 bool aniModeAdvance = false;
 
 void loop()
@@ -699,14 +699,14 @@ void mapAction(int src, int key, int data) {
 
 uint8_t actionNextAnimation() {
   aniMode++;
-  if (aniMode > NUM_ANIMATIONS - 1) aniMode = 0;
+  if (aniMode > MAX_ANIMATION) aniMode = 0;
   if (debugOptions[DEBUG_ACTION]) Serial.printf("actionNextAnimation - animation: %i \n", aniMode); 
   return aniMode;
 }
 
 uint8_t actionPreviousAnimation() {
   aniMode--;
-  if (aniMode > NUM_ANIMATIONS) aniMode = NUM_ANIMATIONS - 1;
+  if (aniMode > MAX_ANIMATION) aniMode = MAX_ANIMATION;
   if (debugOptions[DEBUG_ACTION]) Serial.printf("actionPreviousAnimation - animation: %i \n", aniMode);   
   return aniMode;
 }
