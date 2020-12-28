@@ -33,6 +33,9 @@ AudioControlSGTL5000     sgtl5000_1;     //xy=358,750
 // GUItool: end automatically generated code
 
 
+//add i2s2 for bluetooth testing
+//AudioInputI2S2           i2s2;         //xy=1440.0000228881836,1187.4999647140503
+
 
 #define STARTING_VOLUME       .8 //change this to reduce clipping in the main amp
 #define MAX_VOLUME            .8 
