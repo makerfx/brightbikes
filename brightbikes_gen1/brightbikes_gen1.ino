@@ -4,7 +4,7 @@
 #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 
 
-bool debugOptions[10] = {0, 0, 0, 1, 0, 0, 0, 0, 0, 0};   //change default here, helpful for startup debugging
+bool debugOptions[10] = {0, 0, 0, 1, 0, 1, 0, 0, 0, 0};   //change default here, helpful for startup debugging (0 based)
 
                                                       
 const char *debugOptionsText[10] =  {"", "Input","Audio", "Action", "Peak Audio",
