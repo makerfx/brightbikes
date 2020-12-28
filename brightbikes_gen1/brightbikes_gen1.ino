@@ -146,8 +146,8 @@ int X(int x) {
   return j;
 }
 
-
-int testX = 0; 
+//first pixel of rear panel
+int testX = 45; 
 int testY = 0;
 
 uint8_t gHue = 0; // rotating "base color" used by many of the patterns
@@ -192,6 +192,7 @@ void loop()
     case 13: updateFFT(0, 0, 0); break; //no bg
     case 14: updateFFT(1, 0, 0); break; //bg
     case 15: updateFFT(0, 0, 1); break; //hue cycle per col
+    //case 16: aniTestCrawl(); break;
     default: aniMode = 0;
    }
     
@@ -222,19 +223,20 @@ void loop()
 }
 
 void aniTestCrawl() {
-    /*
+    FastLED.clear(); //clear after each pixel
+    
     Serial.print(testX);
     Serial.print(",");
     Serial.print(testY);
     Serial.print(":");
     Serial.println(XY(testY,testX));
-    */
+    
     leds[XY(testX, testY)] = ColorFromPalette (RainbowColors_p,(millis()/20)%255,255);
 
     
     //setLEDVal(testX,testY, CHSV(100, 255, 255));
     
-    testY = testY+1; 
+    //testY = testY+1; 
     if (testY> kMatrixHeight-1) {
       testY = 0;
       testX +=1;
@@ -243,8 +245,9 @@ void aniTestCrawl() {
     if (testX> kMatrixWidth) {
       testX = 0;
       testY = 0;
+      FastLED.clear(); //clear at end of fill
     }
-
+      
 }
 
 void aniTestSweep() {
@@ -688,8 +691,8 @@ void mapAction(int src, int key, int data) {
   else if ((src == SOURCE_KEY) && (key == 547))    actionChangeBrightness(-BRIGHTNESS_INCREMENT);      //tv remote home
 
 
-//  else if ((src == SOURCE_KEY) && (key == 27))                          //tv remote exit menu
-//  else if ((src == SOURCE_KEY) && (key == 0))    actionChangeBrightness(-BRIGHTNESS_INCREMENT);      //tv remote menu
+ else if ((src == SOURCE_KEY) && (key == 27))   testY = testY+1;                       //tv remote exit menu
+ //else if ((src == SOURCE_KEY) && (key == 0))    testX = testX-1; testY = 0;      //tv remote menu
   
   //up 218
   //down 217
