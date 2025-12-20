@@ -682,7 +682,7 @@ void mapAction(int src, int key, int data) {
   else if ((src == SOURCE_KEY) && (key == 215 ))  actionNextAnimation();              //tv remote right
   else if ((src == SOURCE_KEY) && (key == 211))   actionPreviousAnimation();          //presentation remote left
   else if ((src == SOURCE_KEY) && (key == 216))   actionPreviousAnimation();          //tv remote left
-  else if ((src == SOURCE_KEY) && (key == 2))     actionToggleAniModeAdvance();       //presentation remote play
+  else if ((src == SOURCE_KEY) && (key == 2))     actionChangeBrightness(+BRIGHTNESS_INCREMENT);       //presentation remote play
    else if ((src == SOURCE_KEY) && (key == 10))    actionToggleAniModeAdvance();      //tv remote ok
    
   else if ((src == SOURCE_KEY) && (key == 218))    actionChangeBrightness(+BRIGHTNESS_INCREMENT);      //tv remote up
